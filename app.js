@@ -14,11 +14,9 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 const app = express();
  
 app.set('view engine', 'ejs');
- 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
- 
- 
+  
 //Connecting to the database using mongoose.
 main().catch(err => console.log(err));
 async function main() {
@@ -26,9 +24,7 @@ async function main() {
 }
  
 //Creating an empty array but we are not using it in this version of the app.
-// const posts = [];
- 
- 
+// const posts = []; 
 //Creating Schema for the posts 
 const postSchema = new mongoose.Schema({
   title : String,
@@ -37,12 +33,9 @@ const postSchema = new mongoose.Schema({
  
  
 //Creating a mongoose model based on this Schema :
- 
-const Post = mongoose.model("Post",postSchema);
- 
-app.get("/", function(req, res) {
- 
-  // Find all items in the Posts collection and render it into our home page.
+ const Post = mongoose.model("Post",postSchema);
+ app.get("/", function(req, res) {
+ // Find all items in the Posts collection and render it into our home page.
  Post.find().then(posts =>{
       res.render("home", {
         startingContent: homeStartingContent,
@@ -61,7 +54,6 @@ app.get("/contact", function(req, res){
  
 app.get("/compose", function(req, res){
   res.render("compose");
- 
  });
  
  //Saved the title and the post into our blogDB database.
@@ -72,22 +64,13 @@ app.post("/compose", function(req, res){
   })
  
   //We are saving the post through our compose route and redirecting back into the home route. A message will be displayed in our console when a post is being saved.
- 
-  post.save().then(() => {
- 
+   post.save().then(() => {
     console.log('Post added to DB.');
- 
     res.redirect('/');
- 
   })
- 
   .catch(err => {
- 
     res.status(400).send("Unable to save post to database.");
- 
   });
- 
- 
 });
  
 app.get("/posts/:postId", function(req, res){
@@ -105,9 +88,7 @@ app.get("/posts/:postId", function(req, res){
     })
     .catch(function(err){
       console.log(err);
-    })
- 
- 
+    }) 
 });
  
 app.listen(3000, function() {
